@@ -16,7 +16,7 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <p class="login-tips">Tips : 用户名和密码随便填。</p>
+                <p class="login-tips">Tips : 密码建议使用6个以上字符。</p>
             </el-form>
         </div>
     </div>
@@ -27,8 +27,8 @@
         data: function(){
             return {
                 ruleForm: {
-                    username: 'admin',
-                    password: '123123'
+                    username: '',
+                    password: ''
                 },
                 rules: {
                     username: [
@@ -44,9 +44,22 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     console.log(valid);
+                    //console.log(this.global);
                     if (valid) {
-                        localStorage.setItem('ms_username',this.ruleForm.username);
-                        this.$router.push('/');
+                        
+                        
+                        this.$axios.get( this.global.API.UserManageService.Login, {
+                            params: this.ruleForm
+                        })
+                        .then( (response) => {
+                            localStorage.setItem('ms_username', this.ruleForm.username);
+                            this.$router.push('/');
+                            console.log(response);
+                        })
+                        .catch( (error) => {
+                            console.log(error);
+                        });
+                        
                     } else {
                         console.log('error submit!!');
                         return false;
