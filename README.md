@@ -1,4 +1,4 @@
-# vue-manage-system #
+# vue-admin #
 <a href="https://github.com/vuejs/vue">
     <img src="https://img.shields.io/badge/vue-2.6.10-brightgreen.svg" alt="vue">
   </a>
@@ -39,7 +39,6 @@ npm run build
 ## 组件使用说明与演示 ##
 
 ### vue-schart ###
-vue.js封装sChart.js的图表组件。访问地址：[vue-schart](https://github.com/linxin/vue-schart)
 <p><a href="https://www.npmjs.com/package/vue-schart"><img src="https://img.shields.io/npm/dm/vue-schart.svg" alt="Downloads"></a></p>
 
 ```html
