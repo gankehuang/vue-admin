@@ -129,4 +129,4 @@ import 'element-ui/lib/theme-default/index.css';    // 默认主题
 
 ## License
 
-[MIT](https://github.com/gankehuang/vue-admin/master)
+[MIT](https://github.com/gankehuang/vue-admin)
