@@ -10,12 +10,12 @@
                         </template>
                         <template v-for="subItem in item.subs">
                             <el-submenu v-if="subItem.subs" :index="subItem.index" :key="subItem.index">
-                                <template slot="title">{{ subItem.title }}</template>
+                                <template slot="title" >{{ subItem.title }}</template>
                                 <el-menu-item v-for="(threeItem,i) in subItem.subs" :key="i" :index="threeItem.index">
                                     {{ threeItem.title }}
                                 </el-menu-item>
                             </el-submenu>
-                            <el-menu-item v-else :index="subItem.index" :key="subItem.index">
+                            <el-menu-item v-else :index="subItem.index" :key="subItem.index" @click="send(subItem.title)">
                                 {{ subItem.title }}
                             </el-menu-item>
                         </template>
@@ -41,14 +41,20 @@
                     {
                         icon: 'el-icon-lx-home',
                         index: 'dashboard',
-                        title: '系统首页'
+                        title: '本周食谱'
                     },
                     {
                         icon: 'el-icon-lx-cascades',
                         index: 'table',
-                        title: '基础表格'
+                        title: '预约点餐',
+                        subs: [
+                            {
+                                index: 'table',
+                                title: '早餐'
+                            }
+                        ]
                     },
-                    {
+                    /*{
                         icon: 'el-icon-lx-copy',
                         index: 'tabs',
                         title: 'tab选项卡'
@@ -126,7 +132,7 @@
                                 title: '404页面'
                             }
                         ]
-                    }
+                    }*/
                 ]
             }
         },
@@ -139,7 +145,24 @@
             // 通过 Event Bus 进行组件间通信，来折叠侧边栏
             bus.$on('collapse', msg => {
                 this.collapse = msg;
+            });
+
+            this.$axios.get( this.global.API.RecipeManageService.GetMenuType, {
+                params: {}
+            }).then(res => {
+                let resData = JSON.parse(res.data.resultData);
+                let menuData = [];
+                for(let i=0; i<resData.length; i++) {
+                    menuData.push({index: 'table', title: resData[i].Type})
+                }
+                this.items[1].subs = menuData;
+                console.log(resData);
             })
+        },
+        methods: {
+            send(ele) {
+                bus.$emit('type', ele);
+            }
         }
     }
 </script>

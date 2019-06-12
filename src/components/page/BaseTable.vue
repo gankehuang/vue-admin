@@ -2,7 +2,7 @@
     <div class="table">
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-lx-cascades"></i> 基础表格</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-lx-cascades"></i>{{type}}</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -15,14 +15,23 @@
                 <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="search" @click="search">搜索</el-button>
             </div>
-            <el-table :data="data" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
+
+
+            <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="date" label="日期" sortable width="150">
+                <el-table-column prop="Name" label="菜名" sortable width="150"></el-table-column>
+                <el-table-column prop="Price" label="价格(元)" width="120"></el-table-column>
+                <el-table-column prop="Unit" label="单位"></el-table-column>
+
+                <el-table-column label="图片" width="180" align="center">
+                    <template slot-scope="scope">
+                        <el-image v-if="scope.row.Picture"
+                          style="width: 100px; height: 100px"
+                          :src="scope.row.Picture"
+                          ></el-image>
+                    </template>
                 </el-table-column>
-                <el-table-column prop="name" label="姓名" width="120">
-                </el-table-column>
-                <el-table-column prop="address" label="地址" :formatter="formatter">
-                </el-table-column>
+                <el-table-column prop="Indent" label="是否允许下单" width="120" :formatter="formatter"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -31,7 +40,7 @@
                 </el-table-column>
             </el-table>
             <div class="pagination">
-                <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
+                <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="title">
                 </el-pagination>
             </div>
         </div>
@@ -68,10 +77,14 @@
 </template>
 
 <script>
+    import bus from '../common/bus';
     export default {
         name: 'basetable',
         data() {
             return {
+                type: '',
+                title: 10,
+
                 url: './vuetable.json',
                 tableData: [],
                 cur_page: 1,
@@ -91,52 +104,47 @@
             }
         },
         created() {
+            bus.$on('type', msg => {
+                this.type = msg
+            })
+
             this.getData();
         },
         computed: {
             data() {
                 return this.tableData.filter((d) => {
-                    let is_del = false;
-                    for (let i = 0; i < this.del_list.length; i++) {
-                        if (d.name === this.del_list[i].name) {
-                            is_del = true;
-                            break;
-                        }
-                    }
-                    if (!is_del) {
-                        if (d.address.indexOf(this.select_cate) > -1 &&
-                            (d.name.indexOf(this.select_word) > -1 ||
-                                d.address.indexOf(this.select_word) > -1)
-                        ) {
-                            return d;
-                        }
-                    }
+                    
                 })
             }
         },
         methods: {
             // 分页导航
             handleCurrentChange(val) {
-                this.cur_page = val;
+                this.cur_page = (val-1)*10+1;
+                console.log((val-1)*10+1);
                 this.getData();
             },
             // 获取 easy-mock 的模拟数据
             getData() {
-                // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-                if (process.env.NODE_ENV === 'development') {
-                    this.url = '/ms/table/list';
-                };
-                this.$axios.post(this.url, {
-                    page: this.cur_page
-                }).then((res) => {
-                    this.tableData = res.data.list;
+               
+                this.$axios.get( this.global.API.RecipeManageService.GetAllRecipe, 
+                    { params: { "draw": 1, 'start': this.cur_page, 'length': 10, 'retrievalInfo': JSON.stringify({'Type': this.type}) }}
+                ).then((res) => {
+                    let resData = JSON.parse(res.data.resultData);
+                    this.title = resData.recordsTotal;
+                    this.tableData = JSON.parse(resData.data);
+                    console.log(JSON.parse(resData.data));
                 })
             },
             search() {
                 this.is_search = true;
             },
             formatter(row, column) {
-                return row.address;
+                if(row.Indent == 'true') {
+                    return '是'
+                }else {
+                    return '否'
+                }
             },
             filterTag(value, row) {
                 return row.tag === value;
@@ -179,6 +187,13 @@
                 this.tableData.splice(this.idx, 1);
                 this.$message.success('删除成功');
                 this.delVisible = false;
+            }
+        },
+        watch: {
+            type: function(){
+                this.cur_page = 1;
+                this.getData();
+
             }
         }
     }

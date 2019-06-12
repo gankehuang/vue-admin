@@ -16,7 +16,7 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <p class="login-tips">Tips : 密码建议使用6个以上字符。</p>
+                <p class="login-tips">{{tips}}</p>
             </el-form>
         </div>
     </div>
@@ -26,6 +26,7 @@
     export default {
         data: function(){
             return {
+                tips: 'Tips :密码建议使用6个以上字符。',
                 ruleForm: {
                     username: '',
                     password: ''
@@ -47,13 +48,17 @@
                     //console.log(this.global);
                     if (valid) {
                         
-                        
                         this.$axios.get( this.global.API.UserManageService.Login, {
                             params: this.ruleForm
                         })
                         .then( (response) => {
-                            localStorage.setItem('ms_username', this.ruleForm.username);
-                            this.$router.push('/');
+                            if(response.data.success == 1) {
+                                localStorage.setItem('ms_username', this.ruleForm.username);
+                                this.$router.push('/');
+                            } else {
+                                this.tips = response.data.message;
+                            }
+                            
                             console.log(response);
                         })
                         .catch( (error) => {

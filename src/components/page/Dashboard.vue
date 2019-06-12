@@ -1,190 +1,190 @@
 <template>
     <div>
-        <el-row :gutter="20">
-            <el-col :span="8">
-                <el-card shadow="hover" class="mgb20" style="height:252px;">
-                    <div class="user-info">
-                        <img src="../../assets/img/img.jpg" class="user-avator" alt="">
-                        <div class="user-info-cont">
-                            <div class="user-info-name">{{name}}</div>
-                            <div>{{role}}</div>
-                        </div>
-                    </div>
-                    <div class="user-info-list">上次登录时间：<span>2018-01-01</span></div>
-                    <div class="user-info-list">上次登录地点：<span>东莞</span></div>
-                </el-card>
-                <el-card shadow="hover" style="height:252px;">
-                    <div slot="header" class="clearfix">
-                        <span>语言详情</span>
-                    </div>
-                    Vue
-                    <el-progress :percentage="71.3" color="#42b983"></el-progress>
-                    JavaScript
-                    <el-progress :percentage="24.1" color="#f1e05a"></el-progress>
-                    CSS
-                    <el-progress :percentage="3.7"></el-progress>
-                    HTML
-                    <el-progress :percentage="0.9" color="#f56c6c"></el-progress>
-                </el-card>
-            </el-col>
-            <el-col :span="16">
-                <el-row :gutter="20" class="mgb20">
-                    <el-col :span="8">
-                        <el-card shadow="hover" :body-style="{padding: '0px'}">
-                            <div class="grid-content grid-con-1">
-                                <i class="el-icon-lx-people grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">1234</div>
-                                    <div>用户访问量</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-card shadow="hover" :body-style="{padding: '0px'}">
-                            <div class="grid-content grid-con-2">
-                                <i class="el-icon-lx-notice grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">321</div>
-                                    <div>系统消息</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-card shadow="hover" :body-style="{padding: '0px'}">
-                            <div class="grid-content grid-con-3">
-                                <i class="el-icon-lx-goods grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">5000</div>
-                                    <div>数量</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                </el-row>
-                <el-card shadow="hover" style="height:403px;">
-                    <div slot="header" class="clearfix">
-                        <span>待办事项</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
-                    </div>
-                    <el-table :data="todoList" :show-header="false" height="304" style="width: 100%;font-size:14px;">
-                        <el-table-column width="40">
-                            <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.status"></el-checkbox>
-                            </template>
-                        </el-table-column>
-                        <el-table-column>
-                            <template slot-scope="scope">
-                                <div class="todo-item" :class="{'todo-item-del': scope.row.status}">{{scope.row.title}}</div>
-                            </template>
-                        </el-table-column>
-                        <el-table-column width="60">
-                            <template slot-scope="scope">
-                                <i class="el-icon-edit"></i>
-                                <i class="el-icon-delete"></i>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </el-card>
-            </el-col>
-        </el-row>
-        <el-row :gutter="20">
-            <el-col :span="12">
-                <el-card shadow="hover">
-                    <schart ref="bar" class="schart" canvasId="bar" :data="data" type="bar" :options="options"></schart>
-                </el-card>
-            </el-col>
-            <el-col :span="12">
-                <el-card shadow="hover">
-                    <schart ref="line" class="schart" canvasId="line" :data="data" type="line" :options="options2"></schart>
-                </el-card>
-            </el-col>
-        </el-row>
+        <el-divider content-position="left">上传本周食谱</el-divider>
+        <el-upload
+          class="upload-demo"
+          :action="url"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          :limit="1"
+          :on-success="success"
+          :on-exceed="handleExceed"
+          :file-list="fileList">
+          <el-button size="small" type="primary">点击上传</el-button>
+        </el-upload>
+
+        <el-divider content-position="left" class="title">职工餐</el-divider>
+        <el-card class="box-card" >
+          <div slot="header" class="clearfix">
+            <span>{{monday}}</span>
+          </div>
+          <el-divider content-position="left">早餐</el-divider>
+          <div v-for="item in datalist" v-if="item.Week=='星期一'&& item.Type=='职工餐'" :key="item.Id" class="text item">
+            {{item.Name}}
+          </div>
+          <el-divider content-position="left">中餐</el-divider>
+          <div class="text item"></div>
+          <el-divider content-position="left">晚餐</el-divider>
+          <div class="text item"></div>
+        </el-card>
+        
+        <el-card class="box-card" >
+          <div slot="header" class="clearfix">
+            <span>{{tuesday}}</span>
+          </div>
+          <el-divider content-position="left">早餐</el-divider>
+          <div v-for="item in datalist" v-if="item.Week=='星期二'&& item.Type=='职工餐'" :key="item.Id" class="text item">
+            {{item.Name}}
+          </div>
+          <el-divider content-position="left">中餐</el-divider>
+          <div class="text item"></div>
+          <el-divider content-position="left">晚餐</el-divider>
+          <div class="text item"></div>
+        </el-card>
+
+        <el-card class="box-card" >
+          <div slot="header" class="clearfix">
+            <span>{{wednesday}}</span>
+          </div>
+          <el-divider content-position="left">早餐</el-divider>
+          <div v-for="item in datalist" v-if="item.Week=='星期三'&& item.Type=='职工餐'" :key="item.Id" class="text item">
+            {{item.Name}}
+          </div>
+          <el-divider content-position="left">中餐</el-divider>
+          <div class="text item"></div>
+          <el-divider content-position="left">晚餐</el-divider>
+          <div class="text item"></div>
+        </el-card>
+
+        <el-card class="box-card" >
+          <div slot="header" class="clearfix">
+            <span>{{thursday}}</span>
+          </div>
+          <el-divider content-position="left">早餐</el-divider>
+          <div v-for="item in datalist" v-if="item.Week=='星期四'&& item.Type=='职工餐'" :key="item.Id" class="text item">
+            {{item.Name}}
+          </div>
+          <el-divider content-position="left">中餐</el-divider>
+          <div class="text item"></div>
+          <el-divider content-position="left">晚餐</el-divider>
+          <div class="text item"></div>
+        </el-card>
+
+        <el-card class="box-card" >
+          <div slot="header" class="clearfix">
+            <span>{{friday}}</span>
+          </div>
+          <el-divider content-position="left">早餐</el-divider>
+          <div v-for="item in datalist" v-if="item.Week=='星期五'&& item.Type=='职工餐'" :key="item.Id" class="text item">
+            {{item.Name}}
+          </div>
+          <el-divider content-position="left">中餐</el-divider>
+          <div class="text item"></div>
+          <el-divider content-position="left">晚餐</el-divider>
+          <div class="text item"></div>
+        </el-card>
+        
+        <el-divider content-position="left" class="title">老年餐</el-divider>
+
+        <el-card class="box-card" >
+          <div slot="header" class="clearfix">
+            <span>{{monday}}</span>
+          </div>
+          <el-divider content-position="left">早餐</el-divider>
+          <div v-for="item in datalist" v-if="item.Week=='星期一'&& item.Type=='老年餐'" :key="item.Id" class="text item">
+            {{item.Name}}
+          </div>
+          <el-divider content-position="left">中餐</el-divider>
+          <div class="text item"></div>
+          <el-divider content-position="left">晚餐</el-divider>
+          <div class="text item"></div>
+        </el-card>
+
+        <el-card class="box-card" >
+          <div slot="header" class="clearfix">
+            <span>{{tuesday}}</span>
+          </div>
+          <el-divider content-position="left">早餐</el-divider>
+          <div v-for="item in datalist" v-if="item.Week=='星期二'&& item.Type=='老年餐'" :key="item.Id" class="text item">
+            {{item.Name}}
+          </div>
+          <el-divider content-position="left">中餐</el-divider>
+          <div class="text item"></div>
+          <el-divider content-position="left">晚餐</el-divider>
+          <div class="text item"></div>
+        </el-card>
+
+        <el-card class="box-card" >
+          <div slot="header" class="clearfix">
+            <span>{{wednesday}}</span>
+          </div>
+          <el-divider content-position="left">早餐</el-divider>
+          <div v-for="item in datalist" v-if="item.Week=='星期三'&& item.Type=='老年餐'" :key="item.Id" class="text item">
+            {{item.Name}}
+          </div>
+          <el-divider content-position="left">中餐</el-divider>
+          <div class="text item"></div>
+          <el-divider content-position="left">晚餐</el-divider>
+          <div class="text item"></div>
+        </el-card>
+
+        <el-card class="box-card" >
+          <div slot="header" class="clearfix">
+            <span>{{thursday}}</span>
+          </div>
+          <el-divider content-position="left">早餐</el-divider>
+          <div v-for="item in datalist" v-if="item.Week=='星期四'&& item.Type=='老年餐'" :key="item.Id" class="text item">
+            {{item.Name}}
+          </div>
+          <el-divider content-position="left">中餐</el-divider>
+          <div class="text item"></div>
+          <el-divider content-position="left">晚餐</el-divider>
+          <div class="text item"></div>
+        </el-card>
+
+        <el-card class="box-card" >
+          <div slot="header" class="clearfix">
+            <span>{{friday}}</span>
+          </div>
+          <el-divider content-position="left">早餐</el-divider>
+          <div v-for="item in datalist" v-if="item.Week=='星期五'&& item.Type=='老年餐'" :key="item.Id" class="text item">
+            {{item.Name}}
+          </div>
+          <el-divider content-position="left">中餐</el-divider>
+          <div class="text item"></div>
+          <el-divider content-position="left">晚餐</el-divider>
+          <div class="text item"></div>
+        </el-card>
+
+        <el-divider content-position="left" class="title">相关人员</el-divider>
+        <el-card class="box-card" >
+          <div class="text item">主管：{{datalist[0].Satrap}}</div>
+        </el-card>
+        <el-card class="box-card" >
+          <div class="text item">厨师长：{{datalist[0].Chef}}</div>
+        </el-card>
+
+        
     </div>
 </template>
 
 <script>
-    import Schart from 'vue-schart';
     import bus from '../common/bus';
     export default {
         name: 'dashboard',
         data() {
             return {
-                name: localStorage.getItem('ms_username'),
-                todoList: [{
-                        title: '今天要修复100个bug',
-                        status: false,
-                    },
-                    {
-                        title: '今天要修复100个bug',
-                        status: false,
-                    },
-                    {
-                        title: '今天要写100行代码加几个bug吧',
-                        status: false,
-                    }, {
-                        title: '今天要修复100个bug',
-                        status: false,
-                    },
-                    {
-                        title: '今天要修复100个bug',
-                        status: true,
-                    },
-                    {
-                        title: '今天要写100行代码加几个bug吧',
-                        status: true,
-                    }
-                ],
-                data: [{
-                        name: '2018/09/04',
-                        value: 1083
-                    },
-                    {
-                        name: '2018/09/05',
-                        value: 941
-                    },
-                    {
-                        name: '2018/09/06',
-                        value: 1139
-                    },
-                    {
-                        name: '2018/09/07',
-                        value: 816
-                    },
-                    {
-                        name: '2018/09/08',
-                        value: 327
-                    },
-                    {
-                        name: '2018/09/09',
-                        value: 228
-                    },
-                    {
-                        name: '2018/09/10',
-                        value: 1065
-                    }
-                ],
-                options: {
-                    title: '最近七天每天的用户访问量',
-                    showValue: false,
-                    fillColor: 'rgb(45, 140, 240)',
-                    bottomPadding: 30,
-                    topPadding: 30
-                },
-                options2: {
-                    title: '最近七天用户访问趋势',
-                    fillColor: '#FC6FA1',
-                    axisColor: '#008ACD',
-                    contentColor: '#EEEEEE',
-                    bgColor: '#F5F8FD',
-                    bottomPadding: 30,
-                    topPadding: 30
-                }
+                url: this.global.API.UploadManageService.UploadExcel,
+                fileList: [],
+                datalist: [{Satrap: '', Chef: ''}],
+
+                monday: '',
+                tuesday: '',
+                wednesday: '',
+                thursday: '',
+                friday: ''
             }
-        },
-        components: {
-            Schart
         },
         computed: {
             role() {
@@ -192,37 +192,68 @@
             }
         },
         created(){
-            this.handleListener();
-            this.changeDate();
+            this.getData();
         },
         activated(){
-            this.handleListener();
+            
         },
         deactivated(){
-            window.removeEventListener('resize', this.renderChart);
-            bus.$off('collapse', this.handleBus);
+            
         },
         methods: {
-            changeDate(){
-                const now = new Date().getTime();
-                this.data.forEach((item, index) => {
-                    const date = new Date(now - (6 - index) * 86400000);
-                    item.name = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            success(response, file, fileList) {
+                //console.log(response);
+                if(response.success == 0) {
+                    this.$message.warning(response.message);
+                    this.fileList = [];
+                }
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            beforeRemove(file, fileList) {
+                return this.$confirm(`确定移除 ${ file.name }？`);
+            },
+            getData() {
+                this.$axios.get( this.global.API.RecipeManageService.GetWeekRecipe, {
+                    params: {"draw": 1, 'start': 0, 'length': 100000, 'retrievalInfo': JSON.stringify({})}
                 })
-            },
-            handleListener(){
-                bus.$on('collapse', this.handleBus);
-                // 调用renderChart方法对图表进行重新渲染
-                window.addEventListener('resize', this.renderChart)
-            },
-            handleBus(msg){
-                setTimeout(() => {
-                    this.renderChart()
-                }, 300);
-            },
-            renderChart(){
-                this.$refs.bar.renderChart();
-                this.$refs.line.renderChart();
+                .then( (response) => {
+                    //console.log(response);
+                    if(response.data.success == 1) {
+                        let getDataList = JSON.parse(response.data.resultData);
+                        this.datalist = JSON.parse(getDataList.data);
+                        let allDataList = JSON.parse(getDataList.data);
+                        for(let i=0; i<allDataList.length; i++) {
+                            if(allDataList[i].Week == '星期一') {
+                                this.monday = `${allDataList[i].Week}(${allDataList[i].Date})`
+                            }else if(allDataList[i].Week == '星期二') {
+                                this.tuesday = `${allDataList[i].Week}(${allDataList[i].Date})`
+                            }else if(allDataList[i].Week == '星期三') {
+                                this.wednesday = `${allDataList[i].Week}(${allDataList[i].Date})`
+                            }else if(allDataList[i].Week == '星期四') {
+                                this.thursday = `${allDataList[i].Week}(${allDataList[i].Date})`
+                            }else if(allDataList[i].Week == '星期五') {
+                                this.friday = `${allDataList[i].Week}(${allDataList[i].Date})`
+                            }
+                        }
+                        //console.log(this.monday)
+                        //console.log(JSON.parse(getDataList.data));
+                    } else {
+                        
+                    }
+                    
+                    
+                })
+                .catch( (error) => {
+                    console.log(error);
+                });
             }
         }
     }
@@ -231,113 +262,10 @@
 
 
 <style scoped>
-    .el-row {
-        margin-bottom: 20px;
-    }
-
-    .grid-content {
-        display: flex;
-        align-items: center;
-        height: 100px;
-    }
-
-    .grid-cont-right {
-        flex: 1;
-        text-align: center;
-        font-size: 14px;
-        color: #999;
-    }
-
-    .grid-num {
-        font-size: 30px;
-        font-weight: bold;
-    }
-
-    .grid-con-icon {
-        font-size: 50px;
-        width: 100px;
-        height: 100px;
-        text-align: center;
-        line-height: 100px;
-        color: #fff;
-    }
-
-    .grid-con-1 .grid-con-icon {
-        background: rgb(45, 140, 240);
-    }
-
-    .grid-con-1 .grid-num {
-        color: rgb(45, 140, 240);
-    }
-
-    .grid-con-2 .grid-con-icon {
-        background: rgb(100, 213, 114);
-    }
-
-    .grid-con-2 .grid-num {
-        color: rgb(45, 140, 240);
-    }
-
-    .grid-con-3 .grid-con-icon {
-        background: rgb(242, 94, 67);
-    }
-
-    .grid-con-3 .grid-num {
-        color: rgb(242, 94, 67);
-    }
-
-    .user-info {
-        display: flex;
-        align-items: center;
-        padding-bottom: 20px;
-        border-bottom: 2px solid #ccc;
-        margin-bottom: 20px;
-    }
-
-    .user-avator {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-    }
-
-    .user-info-cont {
-        padding-left: 50px;
-        flex: 1;
-        font-size: 14px;
-        color: #999;
-    }
-
-    .user-info-cont div:first-child {
-        font-size: 30px;
-        color: #222;
-    }
-
-    .user-info-list {
-        font-size: 14px;
-        color: #999;
-        line-height: 25px;
-    }
-
-    .user-info-list span {
-        margin-left: 70px;
-    }
-
-    .mgb20 {
-        margin-bottom: 20px;
-    }
-
-    .todo-item {
-        font-size: 14px;
-    }
-
-    .todo-item-del {
-        text-decoration: line-through;
-        color: #999;
-    }
-
-    .schart {
-        width: 100%;
-        height: 300px;
-    }
-
+    .el-divider__text{ font-size: 20px; background-color: #F0F0F0}
+    .box-card{ width: 18%; display: inline-block; margin: 10px; vertical-align: top; }
+    .clearfix span{ font-weight: bold }
+</style>
+<style>
+    .el-upload--text {height: 40px; width: 100px; border: none; line-height: 40px; background-color: #F0F0F0}
 </style>

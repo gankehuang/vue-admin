@@ -17,7 +17,7 @@ export default new Router({
                 {
                     path: '/dashboard',
                     component: resolve => require(['../components/page/Dashboard.vue'], resolve),
-                    meta: { title: '系统首页' }
+                    meta: { title: '本周食谱' }
                 },
                 {
                     path: '/icon',
@@ -27,7 +27,7 @@ export default new Router({
                 {
                     path: '/table',
                     component: resolve => require(['../components/page/BaseTable.vue'], resolve),
-                    meta: { title: '基础表格' }
+                    meta: { title: '预约点餐' }
                 },
                 {
                     path: '/tabs',

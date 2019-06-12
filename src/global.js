@@ -15,7 +15,15 @@ const API = {
   'UserManageService': {
       'Login': Domain.api + '/UserManageService.asmx/Login',     //登录
       'LogOff': Domain.api + '/UserManageService.asmx/LogOff',      //退出登录
-      
+  },
+
+  'UploadManageService': {
+      'UploadExcel': Domain.api + '/UploadManageService.asmx/UploadExcel'
+  },
+  'RecipeManageService': {
+      'GetWeekRecipe': Domain.api + '/RecipeManageService.asmx/GetWeekRecipe',
+      'GetMenuType': Domain.api + '/RecipeManageService.asmx/GetMenuType',
+      'GetAllRecipe': Domain.api + '/RecipeManageService.asmx/GetAllRecipe'
   }
 
 }

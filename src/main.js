@@ -3,7 +3,10 @@ import App from './App.vue'
 import global from './global'
 import router from './router'
 import axios from 'axios';
+
 import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
 import VueI18n from 'vue-i18n';
 import { messages } from './components/common/i18n';
 
