@@ -45,7 +45,7 @@
                     },
                     {
                         icon: 'el-icon-lx-cascades',
-                        index: 'table',
+                        index: '',
                         title: '预约点餐',
                         subs: [
                             {

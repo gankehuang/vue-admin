@@ -18,12 +18,15 @@ const API = {
   },
 
   'UploadManageService': {
-      'UploadExcel': Domain.api + '/UploadManageService.asmx/UploadExcel'
+      'UploadExcel': Domain.api + '/UploadManageService.asmx/UploadExcel',
+      'UploadAll': Domain.api + '/UploadManageService.asmx/UploadAll'
   },
   'RecipeManageService': {
       'GetWeekRecipe': Domain.api + '/RecipeManageService.asmx/GetWeekRecipe',
       'GetMenuType': Domain.api + '/RecipeManageService.asmx/GetMenuType',
-      'GetAllRecipe': Domain.api + '/RecipeManageService.asmx/GetAllRecipe'
+      'GetAllRecipe': Domain.api + '/RecipeManageService.asmx/GetAllRecipe',
+      'AddorEditRecipe': Domain.api + '/RecipeManageService.asmx/AddorEditRecipe',  //添加食谱
+      'DelRecipe': Domain.api + '/RecipeManageService.asmx/DelRecipe',   //删除
   }
 
 }
